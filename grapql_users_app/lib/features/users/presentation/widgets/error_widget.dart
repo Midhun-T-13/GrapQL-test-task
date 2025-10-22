@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class ErrorDisplayWidget extends StatelessWidget {
   final String message;
@@ -10,37 +13,78 @@ class ErrorDisplayWidget extends StatelessWidget {
     this.onRetry,
   });
 
+  bool get _isNetworkError =>
+      message.toLowerCase().contains('network') ||
+      message.toLowerCase().contains('internet') ||
+      message.toLowerCase().contains('connection');
+
+  IconData get _errorIcon =>
+      _isNetworkError ? Icons.wifi_off_rounded : Icons.error_outline_rounded;
+
+  String get _errorTitle =>
+      _isNetworkError ? 'No Internet Connection' : 'Oops! Something Went Wrong';
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(24.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Theme.of(context).colorScheme.error,
+              _errorIcon,
+              size: 80.sp,
+              color: _isNetworkError ? AppColors.textSecondary : AppColors.error,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 20.h),
             Text(
-              'Oops! Something went wrong',
-              style: Theme.of(context).textTheme.titleLarge,
+              _errorTitle,
+              style: AppTheme.detailTitle.copyWith(fontSize: 20.sp),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 12.h),
             Text(
               message,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: AppTheme.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+              ),
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[
-              const SizedBox(height: 24),
-              ElevatedButton.icon(
-                onPressed: onRetry,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Try Again'),
+              SizedBox(height: 32.h),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: AppColors.primaryGradient,
+                  ),
+                  borderRadius: BorderRadius.circular(12.r),
+                  boxShadow: AppTheme.cardShadow,
+                ),
+                child: ElevatedButton.icon(
+                  onPressed: onRetry,
+                  icon: Icon(Icons.refresh, size: 20.sp),
+                  label: Text(
+                    'Try Again',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 32.w,
+                      vertical: 14.h,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                  ),
+                ),
               ),
             ],
           ],

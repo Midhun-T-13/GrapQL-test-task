@@ -50,10 +50,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
             username
             email
             phone
-            website
-            company {
-              name
-            }
           }
           meta {
             totalCount
@@ -76,9 +72,25 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final QueryResult result = await client.query(options);
 
       if (result.hasException) {
-        throw app_exceptions.ServerException(
-          result.exception?.graphqlErrors.first.message ??
-          'Failed to fetch users',
+        final exception = result.exception;
+
+        // Check for network/link errors (offline, timeout, etc.)
+        if (exception?.linkException != null) {
+          throw const app_exceptions.NetworkException(
+            'No internet connection. Please check your network and try again.',
+          );
+        }
+
+        // Check for GraphQL errors
+        if (exception?.graphqlErrors != null && exception!.graphqlErrors.isNotEmpty) {
+          throw app_exceptions.ServerException(
+            exception.graphqlErrors.first.message,
+          );
+        }
+
+        // Default error
+        throw const app_exceptions.ServerException(
+          'Failed to fetch users. Please try again.',
         );
       }
 
@@ -91,9 +103,22 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         users: users,
         totalCount: totalCount,
       );
+    } on app_exceptions.NetworkException {
+      rethrow;
+    } on app_exceptions.ServerException {
+      rethrow;
     } catch (e) {
-      if (e is app_exceptions.ServerException) rethrow;
-      throw app_exceptions.ServerException(e.toString());
+      // Handle any other unexpected errors
+      if (e.toString().contains('SocketException') ||
+          e.toString().contains('Network') ||
+          e.toString().contains('connection')) {
+        throw const app_exceptions.NetworkException(
+          'No internet connection. Please check your network and try again.',
+        );
+      }
+      throw app_exceptions.ServerException(
+        'Something went wrong. Please try again later.',
+      );
     }
   }
 
@@ -133,9 +158,25 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final QueryResult result = await client.query(options);
 
       if (result.hasException) {
-        throw app_exceptions.ServerException(
-          result.exception?.graphqlErrors.first.message ??
-              'Failed to fetch user',
+        final exception = result.exception;
+
+        // Check for network/link errors (offline, timeout, etc.)
+        if (exception?.linkException != null) {
+          throw const app_exceptions.NetworkException(
+            'No internet connection. Please check your network and try again.',
+          );
+        }
+
+        // Check for GraphQL errors
+        if (exception?.graphqlErrors != null && exception!.graphqlErrors.isNotEmpty) {
+          throw app_exceptions.ServerException(
+            exception.graphqlErrors.first.message,
+          );
+        }
+
+        // Default error
+        throw const app_exceptions.ServerException(
+          'Failed to fetch user details. Please try again.',
         );
       }
 
@@ -145,9 +186,22 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       }
 
       return UserModel.fromJson(userData);
+    } on app_exceptions.NetworkException {
+      rethrow;
+    } on app_exceptions.ServerException {
+      rethrow;
     } catch (e) {
-      if (e is app_exceptions.ServerException) rethrow;
-      throw app_exceptions.ServerException(e.toString());
+      // Handle any other unexpected errors
+      if (e.toString().contains('SocketException') ||
+          e.toString().contains('Network') ||
+          e.toString().contains('connection')) {
+        throw const app_exceptions.NetworkException(
+          'No internet connection. Please check your network and try again.',
+        );
+      }
+      throw app_exceptions.ServerException(
+        'Something went wrong. Please try again later.',
+      );
     }
   }
 
@@ -181,21 +235,52 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final QueryResult result = await client.mutate(options);
 
       if (result.hasException) {
-        throw app_exceptions.ServerException(
-          result.exception?.graphqlErrors.first.message ??
-              'Failed to create user',
+        final exception = result.exception;
+
+        // Check for network/link errors (offline, timeout, etc.)
+        if (exception?.linkException != null) {
+          throw const app_exceptions.NetworkException(
+            'No internet connection. Please check your network and try again.',
+          );
+        }
+
+        // Check for GraphQL errors
+        if (exception?.graphqlErrors != null && exception!.graphqlErrors.isNotEmpty) {
+          throw app_exceptions.ServerException(
+            exception.graphqlErrors.first.message,
+          );
+        }
+
+        // Default error
+        throw const app_exceptions.ServerException(
+          'Failed to create user. Please try again.',
         );
       }
 
       final userData = result.data?['createUser'];
       if (userData == null) {
-        throw const app_exceptions.ServerException('No data returned from mutation');
+        throw const app_exceptions.ServerException(
+          'Unable to create user. Please try again.',
+        );
       }
 
       return UserModel.fromJson(userData);
+    } on app_exceptions.NetworkException {
+      rethrow;
+    } on app_exceptions.ServerException {
+      rethrow;
     } catch (e) {
-      if (e is app_exceptions.ServerException) rethrow;
-      throw app_exceptions.ServerException(e.toString());
+      // Handle any other unexpected errors
+      if (e.toString().contains('SocketException') ||
+          e.toString().contains('Network') ||
+          e.toString().contains('connection')) {
+        throw const app_exceptions.NetworkException(
+          'No internet connection. Please check your network and try again.',
+        );
+      }
+      throw app_exceptions.ServerException(
+        'Something went wrong. Please try again later.',
+      );
     }
   }
 

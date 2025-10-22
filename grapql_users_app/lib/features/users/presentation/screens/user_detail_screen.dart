@@ -8,6 +8,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../cubit/user_detail/user_detail_cubit.dart';
 import '../cubit/user_detail/user_detail_state.dart';
 import '../widgets/custom_header.dart';
+import '../widgets/error_widget.dart';
 
 class UserDetailScreen extends StatelessWidget {
   const UserDetailScreen({super.key});
@@ -38,7 +39,7 @@ class UserDetailScreen extends StatelessWidget {
               if (state is UserDetailLoading) {
                 content = const Center(child: CircularProgressIndicator());
               } else if (state is UserDetailError) {
-                content = _ErrorContent(message: state.message);
+                content = ErrorDisplayWidget(message: state.message,);
               } else {
                 final user = state is UserDetailDisplay
                     ? state.user
@@ -88,36 +89,4 @@ class _ContentContainer extends StatelessWidget {
   }
 }
 
-class _ErrorContent extends StatelessWidget {
-  final String message;
-
-  const _ErrorContent({required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(24.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.error_outline,
-              size: 64.sp,
-              color: AppColors.error,
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: AppTheme.bodyLarge.copyWith(
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 

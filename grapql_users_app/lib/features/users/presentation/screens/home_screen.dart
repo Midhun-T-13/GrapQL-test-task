@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                         return ErrorDisplayWidget(
                           message: state.message,
                           onRetry: () =>
-                             context.read<UserListCubit>().loadPage(1),
+                             context.read<UserListCubit>().loadPage(1, forceRefresh: true),
                         );
                       }
                       if (state is UserListLoaded) {

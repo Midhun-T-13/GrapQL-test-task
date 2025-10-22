@@ -5,7 +5,6 @@ import 'package:grapql_users_app/features/users/presentation/screens/add_user_sc
 import 'package:grapql_users_app/features/users/presentation/screens/user_detail_screen.dart';
 import '../../app_di.dart';
 import '../../features/users/presentation/cubit/user_detail/user_detail_cubit.dart';
-import '../../features/users/presentation/cubit/user_list/user_list_cubit.dart';
 import '../../features/users/presentation/screens/home_screen.dart';
 
 class AppRouter {
@@ -20,17 +19,12 @@ class AppRouter {
       GoRoute(
         path: home,
         name: 'home',
-        builder: (context, state) => MultiBlocProvider(
-            providers: [
-              BlocProvider<UserListCubit>(
-                create: (_) => getIt<UserListCubit>(),
-              ),
+        builder: (context, state) =>
               BlocProvider<AddUserCubit>(
                 create: (_) => getIt<AddUserCubit>(),
+                  child:  const HomeScreen()
               ),
-            ],
-            child:  const HomeScreen()
-        ),
+
       ),
       GoRoute(
           path: '$userDetail/:userId',
@@ -46,18 +40,10 @@ class AppRouter {
       GoRoute(
         path: addUser,
         name: 'addUser',
-        builder: (context, state) => MultiBlocProvider(
-            providers: [
-              BlocProvider<UserListCubit>(
-                create: (_) => getIt<UserListCubit>(),
-              ),
+        builder: (context, state) =>
               BlocProvider<AddUserCubit>(
                 create: (_) => getIt<AddUserCubit>(),
-              ),
-            ],
-            child:  const AddUserPage()
-
-        ),
+            child:  const AddUserPage())
       ),
 
     ],
