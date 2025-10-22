@@ -27,8 +27,4 @@ class AddUserCubit extends Cubit<AddUserState> {
       (user) => emit(AddUserSuccess(user: user)),
     );
   }
-
-  void reset() {
-    emit(AddUserInitial());
-  }
 }

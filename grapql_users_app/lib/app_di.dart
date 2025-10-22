@@ -12,32 +12,53 @@ import 'features/users/presentation/cubit/user_detail/user_detail_cubit.dart';
 import 'features/users/presentation/cubit/user_list/user_list_cubit.dart';
 
 final getIt = GetIt.instance;
+class AppDi {
 
-Future<void> init() async {
-  getIt.registerFactory(
-    () => UserListCubit(getUsersUseCase: getIt()),
-  );
-  getIt.registerFactory(
-        () => AddUserCubit(createUserUseCase: getIt()),
-  );
-  getIt.registerFactory(
-        () => UserDetailCubit(getUserById: getIt()),
-  );
+  static Future<void> init() async {
+    // Register Cubits as Factory - new instance each time to avoid "close" issues
+    getIt.registerFactory<UserListCubit>(
+          () => UserListCubit(getUsersUseCase: getIt()),
+    );
+    getIt.registerFactory<AddUserCubit>(
+          () => AddUserCubit(createUserUseCase: getIt()),
+    );
+    getIt.registerFactory<UserDetailCubit>(
+          () => UserDetailCubit(getUserById: getIt()),
+    );
 
-  getIt.registerLazySingleton(() => GetUsers(getIt()));
-  getIt.registerLazySingleton(() => GetUserById(getIt()));
-  getIt.registerLazySingleton(() => CreateUser(getIt()));
+    // Use cases can remain as singletons - they don't have state
+    getIt.registerLazySingleton<GetUsers>(() => GetUsers(getIt()));
+    getIt.registerLazySingleton<GetUserById>(() => GetUserById(getIt()));
+    getIt.registerLazySingleton<CreateUser>(() => CreateUser(getIt()));
+
+    // Repository and data sources can remain as singletons
+    getIt.registerLazySingleton<UserRepository>(
+          () => UserRepositoryImpl(remoteDataSource: getIt()),
+    );
+
+    getIt.registerLazySingleton<UserRemoteDataSource>(
+          () => UserRemoteDataSourceImpl(client: getIt()),
+    );
+
+    getIt.registerLazySingleton<GraphQLClient>(() =>
+        GraphQLClientConfig.getClient());
+
+  }
+  static Future<void> dispose() async{
+    getIt.reset();
+  }
+
+  static UserListCubit  get userListCubit => getIt<UserListCubit>();
+  static AddUserCubit  get addUserCubit => getIt<AddUserCubit>();
+  static UserDetailCubit  get userDetailCubit => getIt<UserDetailCubit>();
+  static GetUsers  get getUsers => getIt<GetUsers>();
+  static GetUserById  get getUserById => getIt<GetUserById>();
+  static CreateUser  get createUser => getIt<CreateUser>();
+  static UserRepository  get userRepository => getIt<UserRepository>();
+  static UserRemoteDataSource  get userRemoteDataSource => getIt<UserRemoteDataSource>();
+  static GraphQLClient  get graphQLClient => getIt<GraphQLClient>();
 
 
-  getIt.registerLazySingleton<UserRepository>(
-    () => UserRepositoryImpl(remoteDataSource: getIt()),
-  );
 
-  getIt.registerLazySingleton<UserRemoteDataSource>(
-    () => UserRemoteDataSourceImpl(client: getIt()),
-  );
 
-  getIt.registerLazySingleton<GraphQLClient>(() => GraphQLClientConfig.getClient());
-
-  await initHiveForFlutter();
 }

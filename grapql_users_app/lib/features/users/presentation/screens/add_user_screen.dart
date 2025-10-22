@@ -60,7 +60,7 @@ class _AddUserForm extends StatelessWidget {
               'User ${state.user.name} created successfully!',
             ),
           );
-          context.pop(true);
+            if (context.mounted) context.pop(true);
         }
 
         if (state is AddUserError) {
@@ -81,7 +81,6 @@ class _AddUserForm extends StatelessWidget {
               children: [
                 SizedBox(height: 24.h),
 
-                // Full Name
                 CustomTextField(
                   controller: nameController,
                   label: 'Full Name',
@@ -96,7 +95,6 @@ class _AddUserForm extends StatelessWidget {
 
                 SizedBox(height: 20.h),
 
-                // Username
                 CustomTextField(
                   controller: usernameController,
                   label: 'Username',

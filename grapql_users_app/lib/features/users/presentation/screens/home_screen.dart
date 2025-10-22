@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grapql_users_app/core/routing/app_router.dart';
-import 'package:grapql_users_app/features/users/presentation/cubit/user_detail/user_detail_cubit.dart';
 import 'package:grapql_users_app/features/users/presentation/widgets/custom_header.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -48,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                         return ErrorDisplayWidget(
                           message: state.message,
                           onRetry: () =>
-                              context.read<UserListCubit>().loadPage(1),
+                             context.read<UserListCubit>().loadPage(1),
                         );
                       }
                       if (state is UserListLoaded) {
@@ -62,8 +61,7 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: RefreshIndicator(
-                                onRefresh: () => context
-                                    .read<UserListCubit>()
+                                onRefresh: () => context.read<UserListCubit>()
                                     .refreshUsers(),
                                 child: ListView.builder(
                                   padding: EdgeInsets.all(20.w),
@@ -72,11 +70,9 @@ class HomeScreen extends StatelessWidget {
                                     final user = state.users[index];
                                     return GestureDetector(
                                       onTap: () {
-                                        context.read<UserDetailCubit>().loadUser(user.id);
                                         context.push(
-                                          AppRouter.userDetail,
+                                          '${AppRouter.userDetail}/${user.id}',
                                         );
-
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(
@@ -90,7 +86,6 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                         child: Row(
                                           children: [
-                                            // Avatar
                                             Container(
                                               width: 56.w,
                                               height: 56.h,
@@ -207,7 +202,6 @@ class HomeScreen extends StatelessWidget {
             splashColor: Colors.transparent,
             onPressed: ()async{
               final result = await context.push(AppRouter.addUser);
-
               if (result == true && context.mounted) {
                 context.read<UserListCubit>().refreshUsers();
               }

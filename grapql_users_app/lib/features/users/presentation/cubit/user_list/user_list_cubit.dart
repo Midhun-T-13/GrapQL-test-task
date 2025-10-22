@@ -61,7 +61,6 @@ class UserListCubit extends Cubit<UserListState> {
   }
 
   Future<void> refreshUsers() async {
-    // Always reset to page 1 and force fresh API call
     await loadPage(1, forceRefresh: true);
   }
 }

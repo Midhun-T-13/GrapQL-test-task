@@ -69,9 +69,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           'page': page,
           'limit': limit,
         },
-        fetchPolicy: forceRefresh
-            ? FetchPolicy.networkOnly
-            : FetchPolicy.cacheFirst,
+        fetchPolicy: forceRefresh? FetchPolicy.networkOnly : FetchPolicy.cacheAndNetwork,
+
       );
 
       final QueryResult result = await client.query(options);
@@ -128,6 +127,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         variables: {
           'id': id,
         },
+        fetchPolicy: FetchPolicy.cacheAndNetwork
       );
 
       final QueryResult result = await client.query(options);
