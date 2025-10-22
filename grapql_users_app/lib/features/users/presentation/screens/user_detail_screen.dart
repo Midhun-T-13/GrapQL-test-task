@@ -16,10 +16,9 @@ class UserDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: AppTheme.primaryGradientDecoration,
-        child: SafeArea(
-          bottom: false,
+      body: SafeArea(
+        child: Container(
+          decoration: AppTheme.primaryGradientDecoration,
           child: BlocConsumer<UserDetailCubit, UserDetailState>(
             listener: (context, state) {
               if (state is UserDetailUpdateSuccess) {

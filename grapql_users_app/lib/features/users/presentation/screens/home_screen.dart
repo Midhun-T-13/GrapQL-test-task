@@ -21,10 +21,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: AppTheme.primaryGradientDecoration,
-        child: SafeArea(
-          bottom: false,
+      body: SafeArea(
+        child: Container(
+          decoration: AppTheme.primaryGradientDecoration,
           child: Column(
             children: [
               CustomHeader(title: 'User List'),

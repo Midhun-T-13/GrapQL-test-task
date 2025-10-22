@@ -18,10 +18,9 @@ class AddUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: AppTheme.primaryGradientDecoration,
-        child: SafeArea(
-          bottom: false,
+      body: SafeArea(
+        child: Container(
+          decoration: AppTheme.primaryGradientDecoration,
           child: Column(
             children: [
               CustomHeader(title: 'Add New User', isBack: true,),
