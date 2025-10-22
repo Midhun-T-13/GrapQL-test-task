@@ -19,6 +19,7 @@ class UserDetailScreen extends StatelessWidget {
       body: Container(
         decoration: AppTheme.primaryGradientDecoration,
         child: SafeArea(
+          bottom: false,
           child: BlocConsumer<UserDetailCubit, UserDetailState>(
             listener: (context, state) {
               if (state is UserDetailUpdateSuccess) {

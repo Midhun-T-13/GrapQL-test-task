@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grapql_users_app/app_di.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/validators.dart';
@@ -20,6 +21,7 @@ class AddUserPage extends StatelessWidget {
       body: Container(
         decoration: AppTheme.primaryGradientDecoration,
         child: SafeArea(
+          bottom: false,
           child: Column(
             children: [
               CustomHeader(title: 'Add New User', isBack: true,),
@@ -53,6 +55,7 @@ class _AddUserForm extends StatelessWidget {
     final phoneController = TextEditingController();
 
     return BlocConsumer<AddUserCubit, AddUserState>(
+      bloc: AppDi.addUserCubit,
       listener: (context, state) {
         if (state is AddUserSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -138,15 +141,6 @@ class _AddUserForm extends StatelessWidget {
                     Validators.phone,
 
                   ]),
-                  onFieldSubmitted: (_) {
-                    if (formKey.currentState?.validate() ?? false) {
-                      context.read<AddUserCubit>().createUser(
-                            name: nameController.text.trim(),
-                            username: usernameController.text.trim(),
-                            email: emailController.text.trim(),
-                          );
-                    }
-                  },
                 ),
 
                 SizedBox(height: 40.h),
@@ -156,7 +150,7 @@ class _AddUserForm extends StatelessWidget {
                   isLoading: isLoading,
                   onPressed: () {
                     if (formKey.currentState?.validate() ?? false) {
-                      context.read<AddUserCubit>().createUser(
+                      AppDi.addUserCubit.createUser(
                         name: nameController.text.trim(),
                         username: usernameController.text.trim(),
                         email: emailController.text.trim(),

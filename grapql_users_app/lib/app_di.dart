@@ -15,23 +15,20 @@ final getIt = GetIt.instance;
 class AppDi {
 
   static Future<void> init() async {
-    // Register Cubits as Factory - new instance each time to avoid "close" issues
-    getIt.registerFactory<UserListCubit>(
+    getIt.registerLazySingleton<UserListCubit>(
           () => UserListCubit(getUsersUseCase: getIt()),
     );
-    getIt.registerFactory<AddUserCubit>(
+    getIt.registerLazySingleton<AddUserCubit>(
           () => AddUserCubit(createUserUseCase: getIt()),
     );
     getIt.registerFactory<UserDetailCubit>(
           () => UserDetailCubit(getUserById: getIt()),
     );
 
-    // Use cases can remain as singletons - they don't have state
     getIt.registerLazySingleton<GetUsers>(() => GetUsers(getIt()));
     getIt.registerLazySingleton<GetUserById>(() => GetUserById(getIt()));
     getIt.registerLazySingleton<CreateUser>(() => CreateUser(getIt()));
 
-    // Repository and data sources can remain as singletons
     getIt.registerLazySingleton<UserRepository>(
           () => UserRepositoryImpl(remoteDataSource: getIt()),
     );

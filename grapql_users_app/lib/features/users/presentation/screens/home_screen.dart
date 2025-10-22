@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grapql_users_app/app_di.dart';
 import 'package:grapql_users_app/core/routing/app_router.dart';
+import 'package:grapql_users_app/features/users/domain/usecases/get_user_by_id.dart';
 import 'package:grapql_users_app/features/users/presentation/widgets/custom_header.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -22,6 +24,7 @@ class HomeScreen extends StatelessWidget {
       body: Container(
         decoration: AppTheme.primaryGradientDecoration,
         child: SafeArea(
+          bottom: false,
           child: Column(
             children: [
               CustomHeader(title: 'User List'),
@@ -36,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                     builder: (context, state) {
                       if (state is UserListInitial) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          context.read<UserListCubit>().loadPage(1);
+                          AppDi.userListCubit.loadPage(1);
                         });
                         return const UserListShimmer();
                       }
@@ -47,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                         return ErrorDisplayWidget(
                           message: state.message,
                           onRetry: () =>
-                             context.read<UserListCubit>().loadPage(1, forceRefresh: true),
+                             AppDi.userListCubit.loadPage(1, forceRefresh: true),
                         );
                       }
                       if (state is UserListLoaded) {
@@ -61,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: RefreshIndicator(
-                                onRefresh: () => context.read<UserListCubit>()
+                                onRefresh: () => AppDi.userListCubit
                                     .refreshUsers(),
                                 child: ListView.builder(
                                   padding: EdgeInsets.all(20.w),
@@ -73,6 +76,7 @@ class HomeScreen extends StatelessWidget {
                                         context.push(
                                           '${AppRouter.userDetail}/${user.id}',
                                         );
+                                        AppDi.userDetailCubit.loadUser(user.id);
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(
@@ -203,7 +207,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: ()async{
               final result = await context.push(AppRouter.addUser);
               if (result == true && context.mounted) {
-                context.read<UserListCubit>().refreshUsers();
+                AppDi.userListCubit.refreshUsers();
               }
             },
             backgroundColor: Colors.transparent,

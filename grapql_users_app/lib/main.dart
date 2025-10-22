@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grapql_users_app/features/users/presentation/cubit/user_list/user_list_cubit.dart';
 import 'app_di.dart';
 import 'core/routing/app_router.dart';
+import 'features/users/presentation/cubit/user_list/user_list_cubit.dart';
 
 
 void main() async {
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
               routerConfig: AppRouter.router,
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(
-                  seedColor: const Color(0xFF9333EA), // Purple-600
+                  seedColor: const Color(0xFF9333EA),
                   brightness: Brightness.light,
                 ),
                 useMaterial3: true,

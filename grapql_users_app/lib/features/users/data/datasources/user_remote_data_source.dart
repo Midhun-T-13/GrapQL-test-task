@@ -152,7 +152,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         variables: {
           'id': id,
         },
-        fetchPolicy: FetchPolicy.cacheAndNetwork
+        fetchPolicy: FetchPolicy.networkOnly
       );
 
       final QueryResult result = await client.query(options);
