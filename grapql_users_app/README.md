@@ -27,7 +27,7 @@ lib/
 │           ├── cubit/          # State management (Cubit)
 │           ├── pages/          # UI screens
 │           └── widgets/        # Reusable widgets
-└── injection_container.dart    # Dependency Injection setup
+└── app_di.dart    # Dependency Injection setup
 ```
 
 ### Layer Responsibilities
