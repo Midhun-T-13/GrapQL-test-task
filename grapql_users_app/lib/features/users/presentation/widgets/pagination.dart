@@ -167,7 +167,7 @@ class _PageNumber extends StatelessWidget {
               ? const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFF8B7CED), Color(0xFF6366F1)],
+            colors: AppColors.primaryGradient,
           )
               : null,
           color: isActive ? null : AppColors.backgroundLight,

@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/network/either.dart';
@@ -15,8 +16,11 @@ class GetUserById implements UseCase<UserEntity, GetUserByIdParams> {
   }
 }
 
-class GetUserByIdParams {
+class GetUserByIdParams extends Equatable {
   final String id;
 
-  GetUserByIdParams({required this.id});
+  const GetUserByIdParams({required this.id});
+
+  @override
+  List<Object> get props => [id];
 }
