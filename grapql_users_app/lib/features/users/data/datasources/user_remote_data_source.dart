@@ -19,6 +19,15 @@ abstract class UserRemoteDataSource {
     bool forceRefresh = false,
   });
 
+  Future<UserModel> getUserById(String id);
+  Future<UserModel> createUser({
+    required String name,
+    required String username,
+    required String email,
+  });
+
+
+
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -83,6 +92,107 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         users: users,
         totalCount: totalCount,
       );
+    } catch (e) {
+      if (e is app_exceptions.ServerException) rethrow;
+      throw app_exceptions.ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel> getUserById(String id) async {
+    const String getUserQuery = r'''
+      query GetUser($id: ID!) {
+        user(id: $id) {
+          id
+          name
+          username
+          email
+          phone
+          website
+          address {
+            street
+            suite
+            city
+            zipcode
+          }
+          company {
+            name
+          }
+        }
+      }
+    ''';
+
+    try {
+      final QueryOptions options = QueryOptions(
+        document: gql(getUserQuery),
+        variables: {
+          'id': id,
+        },
+      );
+
+      final QueryResult result = await client.query(options);
+
+      if (result.hasException) {
+        throw app_exceptions.ServerException(
+          result.exception?.graphqlErrors.first.message ??
+              'Failed to fetch user',
+        );
+      }
+
+      final userData = result.data?['user'];
+      if (userData == null) {
+        throw const app_exceptions.ServerException('User not found');
+      }
+
+      return UserModel.fromJson(userData);
+    } catch (e) {
+      if (e is app_exceptions.ServerException) rethrow;
+      throw app_exceptions.ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel> createUser({
+    required String name,
+    required String username,
+    required String email,
+  }) async {
+    const String createUserMutation = r'''
+      mutation CreateUser($name: String!, $username: String!, $email: String!) {
+        createUser(input: { name: $name, username: $username, email: $email }) {
+          id
+          name
+          username
+          email
+        }
+      }
+    ''';
+
+    try {
+      final MutationOptions options = MutationOptions(
+        document: gql(createUserMutation),
+        variables: {
+          'name': name,
+          'username': username,
+          'email': email,
+        },
+      );
+
+      final QueryResult result = await client.mutate(options);
+
+      if (result.hasException) {
+        throw app_exceptions.ServerException(
+          result.exception?.graphqlErrors.first.message ??
+              'Failed to create user',
+        );
+      }
+
+      final userData = result.data?['createUser'];
+      if (userData == null) {
+        throw const app_exceptions.ServerException('No data returned from mutation');
+      }
+
+      return UserModel.fromJson(userData);
     } catch (e) {
       if (e is app_exceptions.ServerException) rethrow;
       throw app_exceptions.ServerException(e.toString());

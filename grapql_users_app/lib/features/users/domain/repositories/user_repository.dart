@@ -19,5 +19,11 @@ abstract class UserRepository {
     bool forceRefresh = false,
   });
 
+  Future<Either<Failure, UserEntity>> getUserById(String id);
 
+  Future<Either<Failure, UserEntity>> createUser({
+    required String name,
+    required String username,
+    required String email,
+  });
 }

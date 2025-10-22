@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_di.dart' as di;
 import 'core/routing/app_router.dart';
+import 'features/users/presentation/cubit/add_user/add_user_cubit.dart';
+import 'features/users/presentation/cubit/user_detail/user_detail_cubit.dart';
 import 'features/users/presentation/cubit/user_list/user_list_cubit.dart';
 
 void main() async {
@@ -21,7 +23,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<UserListCubit>(
           create: (_) => di.getIt<UserListCubit>(),
         ),
-
+        BlocProvider<AddUserCubit>(
+          create: (_) => di.getIt<AddUserCubit>(),
+        ),
+        BlocProvider<UserDetailCubit>(
+          create: (_) => di.getIt<UserDetailCubit>(),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(440, 923),

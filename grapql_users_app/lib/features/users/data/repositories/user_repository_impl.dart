@@ -37,4 +37,40 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, UserEntity>> getUserById(String id) async {
+    try {
+      final user = await remoteDataSource.getUserById(id);
+      return Right(user);
+    } on app_exceptions.ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on app_exceptions.NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> createUser({
+    required String name,
+    required String username,
+    required String email,
+  }) async {
+    try {
+      final user = await remoteDataSource.createUser(
+        name: name,
+        username: username,
+        email: email,
+      );
+      return Right(user);
+    } on app_exceptions.ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on app_exceptions.NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
 }

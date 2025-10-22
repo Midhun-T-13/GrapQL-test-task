@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:grapql_users_app/core/routing/app_router.dart';
+import 'package:grapql_users_app/features/users/presentation/cubit/user_detail/user_detail_cubit.dart';
+import 'package:grapql_users_app/features/users/presentation/widgets/custom_header.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../cubit/user_list/user_list_cubit.dart';
@@ -21,15 +25,7 @@ class HomeScreen extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.all(20.w),
-                child: Center(
-                  child: Text(
-                    'Users List',
-                    style: AppTheme.heading1,
-                  ),
-                ),
-              ),
+              CustomHeader(title: 'User List'),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 4.h),
@@ -76,6 +72,10 @@ class HomeScreen extends StatelessWidget {
                                     final user = state.users[index];
                                     return GestureDetector(
                                       onTap: () {
+                                        context.read<UserDetailCubit>().loadUser(user.id);
+                                        context.push(
+                                          AppRouter.userDetail,
+                                        );
 
                                       },
                                       child: Container(
@@ -205,8 +205,12 @@ class HomeScreen extends StatelessWidget {
           ),
           child: FloatingActionButton(
             splashColor: Colors.transparent,
-            onPressed: (){
+            onPressed: ()async{
+              final result = await context.push(AppRouter.addUser);
 
+              if (result == true && context.mounted) {
+                context.read<UserListCubit>().refreshUsers();
+              }
             },
             backgroundColor: Colors.transparent,
             focusColor: Colors.transparent,

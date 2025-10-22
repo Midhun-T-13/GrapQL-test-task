@@ -4,7 +4,11 @@ import 'core/network/graphql_client.dart';
 import 'features/users/data/datasources/user_remote_data_source.dart';
 import 'features/users/data/repositories/user_repository_impl.dart';
 import 'features/users/domain/repositories/user_repository.dart';
+import 'features/users/domain/usecases/create_user.dart';
+import 'features/users/domain/usecases/get_user_by_id.dart';
 import 'features/users/domain/usecases/get_users.dart';
+import 'features/users/presentation/cubit/add_user/add_user_cubit.dart';
+import 'features/users/presentation/cubit/user_detail/user_detail_cubit.dart';
 import 'features/users/presentation/cubit/user_list/user_list_cubit.dart';
 
 final getIt = GetIt.instance;
@@ -13,8 +17,16 @@ Future<void> init() async {
   getIt.registerFactory(
     () => UserListCubit(getUsersUseCase: getIt()),
   );
+  getIt.registerFactory(
+        () => AddUserCubit(createUserUseCase: getIt()),
+  );
+  getIt.registerFactory(
+        () => UserDetailCubit(getUserById: getIt()),
+  );
 
   getIt.registerLazySingleton(() => GetUsers(getIt()));
+  getIt.registerLazySingleton(() => GetUserById(getIt()));
+  getIt.registerLazySingleton(() => CreateUser(getIt()));
 
 
   getIt.registerLazySingleton<UserRepository>(
