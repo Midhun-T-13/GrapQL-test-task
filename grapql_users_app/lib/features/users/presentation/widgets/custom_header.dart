@@ -13,19 +13,20 @@ class CustomHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.symmetric(horizontal:  20.w, vertical: 5.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           isBack! ?
           IconButton(
+            padding: EdgeInsets.zero,
             icon: Icon(
               Icons.arrow_back,
               color: AppColors.textWhite,
               size: 24.sp,
             ),
             onPressed: () => context.pop(),
-          ) : SizedBox(width: 40.w,),
+          ) : SizedBox(width: 40.w,height: 48.h,),
           Text(
             title,
             style: AppTheme.heading1,

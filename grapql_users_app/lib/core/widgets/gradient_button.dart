@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../theme/app_theme.dart';
 import '../theme/app_colors.dart';
 
-/// Custom reusable gradient button
 class GradientButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;

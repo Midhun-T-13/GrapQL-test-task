@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../theme/app_theme.dart';
 import '../theme/app_colors.dart';
 
-/// Custom reusable text form field with consistent styling
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
@@ -13,6 +13,8 @@ class CustomTextField extends StatelessWidget {
   final bool enabled;
   final String? Function(String?)? validator;
   final void Function(String)? onFieldSubmitted;
+  final int maxLength;
+  final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextField({
     super.key,
@@ -24,6 +26,8 @@ class CustomTextField extends StatelessWidget {
     this.enabled = true,
     this.validator,
     this.onFieldSubmitted,
+    this.maxLength = 100,
+    this.inputFormatters
   });
 
   @override
@@ -37,13 +41,16 @@ class CustomTextField extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         TextFormField(
+          maxLength: maxLength,
           controller: controller,
           keyboardType: keyboardType,
           textInputAction: textInputAction,
           enabled: enabled,
           validator: validator,
           onFieldSubmitted: onFieldSubmitted,
+          inputFormatters: inputFormatters,
           decoration: InputDecoration(
+            counterText: '',
             hintText: hintText,
             hintStyle: AppTheme.hintText,
             filled: true,

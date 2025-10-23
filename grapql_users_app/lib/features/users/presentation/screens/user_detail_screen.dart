@@ -58,7 +58,13 @@ class UserDetailScreen extends StatelessWidget {
                 children: [
                   const CustomHeader(title: 'User Details',isBack:  true,),
                   Expanded(
-                    child: _ContentContainer(child: content),
+                    child:  Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.backgroundLight,
+                          borderRadius: AppTheme.topRoundedBorder,
+                        ),
+                        child: content),
                   ),
                 ],
               );
@@ -69,24 +75,4 @@ class UserDetailScreen extends StatelessWidget {
     );
   }
 }
-
-
-class _ContentContainer extends StatelessWidget {
-  final Widget child;
-
-  const _ContentContainer({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColors.backgroundLight,
-        borderRadius: AppTheme.topRoundedBorder,
-      ),
-      child: child,
-    );
-  }
-}
-
 

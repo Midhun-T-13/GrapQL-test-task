@@ -74,21 +74,18 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       if (result.hasException) {
         final exception = result.exception;
 
-        // Check for network/link errors (offline, timeout, etc.)
         if (exception?.linkException != null) {
           throw const app_exceptions.NetworkException(
             'No internet connection. Please check your network and try again.',
           );
         }
 
-        // Check for GraphQL errors
         if (exception?.graphqlErrors != null && exception!.graphqlErrors.isNotEmpty) {
           throw app_exceptions.ServerException(
             exception.graphqlErrors.first.message,
           );
         }
 
-        // Default error
         throw const app_exceptions.ServerException(
           'Failed to fetch users. Please try again.',
         );
@@ -108,7 +105,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     } on app_exceptions.ServerException {
       rethrow;
     } catch (e) {
-      // Handle any other unexpected errors
       if (e.toString().contains('SocketException') ||
           e.toString().contains('Network') ||
           e.toString().contains('connection')) {
@@ -160,21 +156,18 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       if (result.hasException) {
         final exception = result.exception;
 
-        // Check for network/link errors (offline, timeout, etc.)
         if (exception?.linkException != null) {
           throw const app_exceptions.NetworkException(
             'No internet connection. Please check your network and try again.',
           );
         }
 
-        // Check for GraphQL errors
         if (exception?.graphqlErrors != null && exception!.graphqlErrors.isNotEmpty) {
           throw app_exceptions.ServerException(
             exception.graphqlErrors.first.message,
           );
         }
 
-        // Default error
         throw const app_exceptions.ServerException(
           'Failed to fetch user details. Please try again.',
         );
@@ -191,7 +184,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     } on app_exceptions.ServerException {
       rethrow;
     } catch (e) {
-      // Handle any other unexpected errors
       if (e.toString().contains('SocketException') ||
           e.toString().contains('Network') ||
           e.toString().contains('connection')) {
@@ -237,21 +229,18 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       if (result.hasException) {
         final exception = result.exception;
 
-        // Check for network/link errors (offline, timeout, etc.)
         if (exception?.linkException != null) {
           throw const app_exceptions.NetworkException(
             'No internet connection. Please check your network and try again.',
           );
         }
 
-        // Check for GraphQL errors
         if (exception?.graphqlErrors != null && exception!.graphqlErrors.isNotEmpty) {
           throw app_exceptions.ServerException(
             exception.graphqlErrors.first.message,
           );
         }
 
-        // Default error
         throw const app_exceptions.ServerException(
           'Failed to create user. Please try again.',
         );
@@ -270,7 +259,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     } on app_exceptions.ServerException {
       rethrow;
     } catch (e) {
-      // Handle any other unexpected errors
       if (e.toString().contains('SocketException') ||
           e.toString().contains('Network') ||
           e.toString().contains('connection')) {

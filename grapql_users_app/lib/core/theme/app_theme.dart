@@ -32,7 +32,7 @@ class AppTheme {
 
   // Text styles
   static TextStyle get heading1 => TextStyle(
-        fontSize: 28.sp,
+        fontSize: 26.sp,
         fontWeight: FontWeight.bold,
         color: AppColors.textWhite,
       );

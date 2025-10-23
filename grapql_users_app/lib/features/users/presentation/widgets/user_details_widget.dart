@@ -13,10 +13,9 @@ class UserDetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Column(
         children: [
-          SizedBox(height: 20.h),
           Container(
             width: 120.w,
             height: 120.h,
@@ -43,9 +42,8 @@ class UserDetailsWidget extends StatelessWidget {
             ),
           ),
 
-           SizedBox(height: 24.h),
+           SizedBox(height: 20.h),
 
-          // Name
           Text(
             user.name,
             style: AppTheme.detailTitle,
@@ -54,13 +52,12 @@ class UserDetailsWidget extends StatelessWidget {
 
           SizedBox(height: 8.h),
 
-          // Username
           Text(
             '@${user.username}',
             style: AppTheme.detailSubtitle,
           ),
 
-           SizedBox(height: 32.h),
+           SizedBox(height: 15.h),
 
           _InfoCard(
             icon: Icons.email_outlined,

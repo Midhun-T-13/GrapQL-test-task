@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +27,7 @@ class AddUserPage extends StatelessWidget {
               CustomHeader(title: 'Add New User', isBack: true,),
               Expanded(
                 child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: AppColors.backgroundLight,
@@ -89,6 +91,8 @@ class _AddUserForm extends StatelessWidget {
                   hintText: 'John Doe',
                   textInputAction: TextInputAction.next,
                   enabled: !isLoading,
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                  ],
                   validator: (value) => Validators.combine(value, [
                     (val) => Validators.required(val, 'Name'),
                     (val) => Validators.minLength(val, 3, 'Name'),
@@ -130,15 +134,15 @@ class _AddUserForm extends StatelessWidget {
                 CustomTextField(
                   controller: phoneController,
                   label: 'Phone Number',
-                  hintText: '+1-234-567-8900',
+                  hintText: '+919988776655',
                   keyboardType: TextInputType.phone,
                   textInputAction: TextInputAction.done,
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9+]'))],
                   enabled: !isLoading,
                   validator: (value) => Validators.combine(value, [
                         (val) => Validators.required(val, 'Phone'),
                     (val) => Validators.minLength(value, 10, "Phone Number"),
                     Validators.phone,
-
                   ]),
                 ),
 

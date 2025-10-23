@@ -66,6 +66,7 @@ class HomeScreen extends StatelessWidget {
                                 onRefresh: () => AppDi.userListCubit
                                     .refreshUsers(),
                                 child: ListView.builder(
+                                  shrinkWrap: true,
                                   padding: EdgeInsets.all(20.w),
                                   itemCount: state.users.length,
                                   itemBuilder: (context, index) {
@@ -189,33 +190,40 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 50.0),
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: AppColors.primaryGradient,
+      floatingActionButton: BlocBuilder<UserListCubit, UserListState>(
+        builder: (context, state) {
+          if(state is UserListError){
+            return SizedBox.shrink();
+          }
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 50.0),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: AppColors.primaryGradient,
+                ),
+                boxShadow: AppTheme.cardShadow,
+              ),
+              child: FloatingActionButton(
+                splashColor: Colors.transparent,
+                onPressed: ()async{
+                  final result = await context.push(AppRouter.addUser);
+                  if (result == true && context.mounted) {
+                    AppDi.userListCubit.refreshUsers();
+                  }
+                },
+                backgroundColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                highlightElevation: 0,
+                elevation: 0,
+                child: const Icon(Icons.add, color: AppColors.textWhite),
+              ),
             ),
-            boxShadow: AppTheme.cardShadow,
-          ),
-          child: FloatingActionButton(
-            splashColor: Colors.transparent,
-            onPressed: ()async{
-              final result = await context.push(AppRouter.addUser);
-              if (result == true && context.mounted) {
-                AppDi.userListCubit.refreshUsers();
-              }
-            },
-            backgroundColor: Colors.transparent,
-            focusColor: Colors.transparent,
-            highlightElevation: 0,
-            elevation: 0,
-            child: const Icon(Icons.add, color: AppColors.textWhite),
-          ),
-        ),
+          );
+        }
       ),
     );
   }
