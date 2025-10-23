@@ -56,12 +56,14 @@ class UserRepositoryImpl implements UserRepository {
     required String name,
     required String username,
     required String email,
+    required String phone
   }) async {
     try {
       final user = await remoteDataSource.createUser(
         name: name,
         username: username,
         email: email,
+        phone: phone
       );
       return Right(user);
     } on app_exceptions.ServerException catch (e) {

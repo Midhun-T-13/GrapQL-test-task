@@ -24,6 +24,7 @@ abstract class UserRemoteDataSource {
     required String name,
     required String username,
     required String email,
+    required String phone
   });
 
 
@@ -202,14 +203,16 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     required String name,
     required String username,
     required String email,
+    required String phone
   }) async {
     const String createUserMutation = r'''
-      mutation CreateUser($name: String!, $username: String!, $email: String!) {
-        createUser(input: { name: $name, username: $username, email: $email }) {
+      mutation CreateUser($name: String!, $username: String!, $email: String! $phone: String) {
+        createUser(input: { name: $name, username: $username, email: $email, phone: $phone }) {
           id
           name
           username
           email
+          phone
         }
       }
     ''';
@@ -221,6 +224,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           'name': name,
           'username': username,
           'email': email,
+          'phone': phone
         },
       );
 

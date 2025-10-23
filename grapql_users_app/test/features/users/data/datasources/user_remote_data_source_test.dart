@@ -293,6 +293,8 @@ void main() {
     const tName = 'John Doe';
     const tUsername = 'johndoe';
     const tEmail = 'john@example.com';
+    const tPhone = '1234567890';
+
 
     final tUserData = {
       'id': '1',
@@ -316,6 +318,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       );
 
       // assert
@@ -346,6 +349,7 @@ void main() {
           name: tName,
           username: tUsername,
           email: tEmail,
+          phone: tPhone
         ),
         throwsA(isA<app_exceptions.ServerException>().having(
           (e) => e.message,
@@ -370,6 +374,7 @@ void main() {
           name: tName,
           username: tUsername,
           email: tEmail,
+          phone: tPhone
         ),
         throwsA(isA<app_exceptions.ServerException>().having(
           (e) => e.message,
@@ -388,6 +393,7 @@ void main() {
         name: 'Jane Smith',
         username: 'janesmith',
         email: 'jane@example.com',
+        phone: '1234567890'
       );
 
       // assert
@@ -408,6 +414,7 @@ void main() {
           name: tName,
           username: tUsername,
           email: tEmail,
+          phone: tPhone
         ),
         throwsA(isA<app_exceptions.ServerException>()),
       );

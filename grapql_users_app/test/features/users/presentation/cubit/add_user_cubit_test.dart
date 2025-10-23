@@ -28,6 +28,8 @@ void main() {
   const tName = 'John Doe';
   const tUsername = 'johndoe';
   const tEmail = 'john@example.com';
+  const tPhone = '1234567890';
+
 
   const tUser = UserEntity(
     id: '1',
@@ -57,6 +59,7 @@ void main() {
           name: tName,
           username: tUsername,
           email: tEmail,
+          phone: tPhone
         ),
         expect: () => [
           AddUserLoading(),
@@ -67,6 +70,7 @@ void main() {
             name: tName,
             username: tUsername,
             email: tEmail,
+            phone: tPhone
           ))).called(1);
         },
       );
@@ -83,6 +87,7 @@ void main() {
           name: tName,
           username: tUsername,
           email: tEmail,
+          phone: tPhone
         ),
         expect: () => [
           AddUserLoading(),
@@ -102,6 +107,7 @@ void main() {
           name: tName,
           username: tUsername,
           email: 'invalid-email',
+          phone: tPhone
         ),
         expect: () => [
           AddUserLoading(),
@@ -121,6 +127,7 @@ void main() {
           name: 'Jane Smith',
           username: 'janesmith',
           email: 'jane@example.com',
+          phone: '1234567890'
         ),
         expect: () => [
           AddUserLoading(),
@@ -138,6 +145,7 @@ void main() {
             name: 'Jane Smith',
             username: 'janesmith',
             email: 'jane@example.com',
+            phone: '1234567890'
           ))).called(1);
         },
       );
@@ -155,11 +163,13 @@ void main() {
             name: tName,
             username: tUsername,
             email: tEmail,
+            phone: tPhone
           );
           await cubit.createUser(
             name: 'Jane Smith',
             username: 'janesmith',
             email: 'jane@example.com',
+            phone: '1234567890'
           );
         },
         expect: () => [

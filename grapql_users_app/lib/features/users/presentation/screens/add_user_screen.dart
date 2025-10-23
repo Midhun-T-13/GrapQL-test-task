@@ -157,6 +157,7 @@ class _AddUserForm extends StatelessWidget {
                         name: nameController.text.trim(),
                         username: usernameController.text.trim(),
                         email: emailController.text.trim(),
+                        phone: phoneController.text.trim(),
                       );
                     }
                   },

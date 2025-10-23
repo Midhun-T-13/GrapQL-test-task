@@ -25,5 +25,6 @@ abstract class UserRepository {
     required String name,
     required String username,
     required String email,
+    required String phone
   });
 }

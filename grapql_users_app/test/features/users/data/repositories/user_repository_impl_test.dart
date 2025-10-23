@@ -285,6 +285,9 @@ void main() {
     const tName = 'John Doe';
     const tUsername = 'johndoe';
     const tEmail = 'john@example.com';
+    const tPhone = '1234567890';
+
+
 
     test('should return UserEntity when remote data source call is successful', () async {
       // arrange
@@ -292,6 +295,7 @@ void main() {
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenAnswer((_) async => tUserModel);
 
       // act
@@ -299,6 +303,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       );
 
       // assert
@@ -310,12 +315,14 @@ void main() {
           expect(user.name, tName);
           expect(user.username, tUsername);
           expect(user.email, tEmail);
+          expect(user.phone, tPhone);
         },
       );
       verify(mockRemoteDataSource.createUser(
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       )).called(1);
     });
 
@@ -325,6 +332,7 @@ void main() {
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenThrow(const app_exceptions.ServerException('Failed to create user'));
 
       // act
@@ -332,6 +340,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       );
 
       // assert
@@ -351,6 +360,7 @@ void main() {
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenThrow(const app_exceptions.NetworkException('No internet connection'));
 
       // act
@@ -358,6 +368,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       );
 
       // assert
@@ -377,6 +388,7 @@ void main() {
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenAnswer((_) async => tUserModel);
 
       // act
@@ -384,6 +396,7 @@ void main() {
         name: 'Jane Smith',
         username: 'janesmith',
         email: 'jane@example.com',
+        phone: '1234567890'
       );
 
       // assert
@@ -391,6 +404,7 @@ void main() {
         name: 'Jane Smith',
         username: 'janesmith',
         email: 'jane@example.com',
+        phone: '1234567890'
       )).called(1);
     });
   });

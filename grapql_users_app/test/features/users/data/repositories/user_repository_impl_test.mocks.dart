@@ -84,12 +84,14 @@ class MockUserRemoteDataSource extends _i1.Mock
     required String? name,
     required String? username,
     required String? email,
+    required String? phone,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createUser, [], {
               #name: name,
               #username: username,
               #email: email,
+              #phone: phone,
             }),
             returnValue: _i4.Future<_i3.UserModel>.value(
               _FakeUserModel_1(
@@ -98,6 +100,7 @@ class MockUserRemoteDataSource extends _i1.Mock
                   #name: name,
                   #username: username,
                   #email: email,
+                  #phone: phone,
                 }),
               ),
             ),

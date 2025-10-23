@@ -109,44 +109,6 @@ class UserDetailsWidget extends StatelessWidget {
             ),
           ],
 
-          if (user.body != null) ...[
-            const SizedBox(height: 12),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: AppTheme.borderRadiusLarge,
-                boxShadow: AppTheme.cardShadow,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.description_outlined,
-                        size: 18,
-                        color: AppColors.textSecondary,
-                      ),
-                       SizedBox(width: 8.w),
-                      Text(
-                        'ABOUT',
-                        style: AppTheme.labelText,
-                      ),
-                    ],
-                  ),
-                   SizedBox(height: 8.w),
-                  Text(
-                    user.body!,
-                    style: AppTheme.detailBody,
-                  ),
-                ],
-              ),
-            ),
-          ],
-
-          const SizedBox(height: 32),
         ],
       ),
     );

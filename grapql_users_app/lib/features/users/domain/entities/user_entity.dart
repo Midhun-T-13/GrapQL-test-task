@@ -8,7 +8,6 @@ class UserEntity extends Equatable {
   final String? phone;
   final String? website;
   final String? companyName;
-  final String? body;
   final String? street;
   final String? suite;
   final String? city;
@@ -22,7 +21,6 @@ class UserEntity extends Equatable {
     this.phone,
     this.website,
     this.companyName,
-    this.body,
     this.street,
     this.suite,
     this.city,
@@ -38,7 +36,6 @@ class UserEntity extends Equatable {
         phone,
         website,
         companyName,
-        body,
         street,
         suite,
         city,

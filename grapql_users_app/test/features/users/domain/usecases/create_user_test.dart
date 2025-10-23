@@ -19,12 +19,15 @@ void main() {
   const tName = 'John Doe';
   const tUsername = 'johndoe';
   const tEmail = 'john@example.com';
+  const tPhone = '1234567890';
+
 
   const tUser = UserEntity(
     id: '1',
     name: tName,
     username: tUsername,
     email: tEmail,
+    phone: tPhone,
   );
 
   group('CreateUser', () {
@@ -34,6 +37,7 @@ void main() {
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenAnswer((_) async => const Right(tUser));
 
       // act
@@ -41,6 +45,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       ));
 
       // assert
@@ -52,12 +57,14 @@ void main() {
           expect(user.name, tName);
           expect(user.username, tUsername);
           expect(user.email, tEmail);
+          expect(user.phone, tPhone);
         },
       );
       verify(mockUserRepository.createUser(
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       )).called(1);
       verifyNoMoreInteractions(mockUserRepository);
     });
@@ -69,6 +76,7 @@ void main() {
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenAnswer((_) async => const Left(tServerFailure));
 
       // act
@@ -76,6 +84,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       ));
 
       // assert
@@ -91,6 +100,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       )).called(1);
     });
 
@@ -101,6 +111,7 @@ void main() {
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenAnswer((_) async => const Left(tValidationFailure));
 
       // act
@@ -108,6 +119,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: 'invalid-email',
+        phone: tPhone
       ));
 
       // assert
@@ -128,6 +140,7 @@ void main() {
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenAnswer((_) async => const Left(tNetworkFailure));
 
       // act
@@ -135,6 +148,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       ));
 
       // assert
@@ -154,6 +168,7 @@ void main() {
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenAnswer((_) async => const Right(tUser));
 
       // act
@@ -161,6 +176,7 @@ void main() {
         name: 'Jane Smith',
         username: 'janesmith',
         email: 'jane@example.com',
+        phone: '1234567890'
       ));
 
       // assert
@@ -168,6 +184,7 @@ void main() {
         name: 'Jane Smith',
         username: 'janesmith',
         email: 'jane@example.com',
+        phone: '1234567890'
       )).called(1);
     });
 
@@ -178,11 +195,13 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       );
       when(mockUserRepository.createUser(
         name: anyNamed('name'),
         username: anyNamed('username'),
         email: anyNamed('email'),
+        phone: anyNamed('phone'),
       )).thenAnswer((_) async => const Right(createdUser));
 
       // act
@@ -190,6 +209,7 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       ));
 
       // assert
@@ -213,16 +233,19 @@ void main() {
         name: 'John Doe',
         username: 'johndoe',
         email: 'john@example.com',
+        phone: '1234567890'
       );
       const params2 = CreateUserParams(
         name: 'John Doe',
         username: 'johndoe',
         email: 'john@example.com',
+        phone: '1234567890'
       );
       const params3 = CreateUserParams(
         name: 'Jane Smith',
         username: 'johndoe',
         email: 'john@example.com',
+        phone: '1234567890'
       );
 
       // assert
@@ -236,12 +259,14 @@ void main() {
         name: tName,
         username: tUsername,
         email: tEmail,
+        phone: tPhone
       );
 
       // assert
       expect(params.name, tName);
       expect(params.username, tUsername);
       expect(params.email, tEmail);
+      expect(params.phone, tPhone);
     });
   });
 }

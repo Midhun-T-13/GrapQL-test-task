@@ -85,6 +85,7 @@ class MockUserRepository extends _i1.Mock implements _i3.UserRepository {
     required String? name,
     required String? username,
     required String? email,
+    required String? phone,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createUser, [], {

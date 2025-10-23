@@ -16,6 +16,7 @@ class CreateUser implements UseCase<UserEntity, CreateUserParams> {
       name: params.name,
       username: params.username,
       email: params.email,
+      phone: params.phone
     );
   }
 }
@@ -24,13 +25,15 @@ class CreateUserParams extends Equatable {
   final String name;
   final String username;
   final String email;
+  final String phone;
 
   const CreateUserParams({
     required this.name,
     required this.username,
     required this.email,
+    required this.phone
   });
 
   @override
-  List<Object> get props => [name, username, email];
+  List<Object> get props => [name, username, email, phone];
 }

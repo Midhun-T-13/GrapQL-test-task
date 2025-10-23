@@ -9,7 +9,6 @@ class UserModel extends UserEntity {
     super.phone,
     super.website,
     super.companyName,
-    super.body,
     super.street,
     super.suite,
     super.city,
@@ -25,7 +24,6 @@ class UserModel extends UserEntity {
       phone: json['phone'] as String?,
       website: json['website'] as String?,
       companyName: json['company']?['name'] as String?,
-      body: json['body'] as String?,
       street: json['address']?['street'] as String?,
       suite: json['address']?['suite'] as String?,
       city: json['address']?['city'] as String?,
@@ -42,7 +40,6 @@ class UserModel extends UserEntity {
       if (phone != null) 'phone': phone,
       if (website != null) 'website': website,
       if (companyName != null) 'company': {'name': companyName},
-      if (body != null) 'body': body,
       if (street != null || suite != null || city != null || zipcode != null)
         'address': {
           if (street != null) 'street': street,
@@ -62,7 +59,6 @@ class UserModel extends UserEntity {
       phone: phone,
       website: website,
       companyName: companyName,
-      body: body,
       street: street,
       suite: suite,
       city: city,

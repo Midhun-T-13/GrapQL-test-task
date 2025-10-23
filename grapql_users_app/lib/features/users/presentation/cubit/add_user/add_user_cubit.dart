@@ -11,6 +11,7 @@ class AddUserCubit extends Cubit<AddUserState> {
     required String name,
     required String username,
     required String email,
+    required String phone
   }) async {
     emit(AddUserLoading());
 
@@ -19,6 +20,7 @@ class AddUserCubit extends Cubit<AddUserState> {
         name: name,
         username: username,
         email: email,
+        phone: phone
       ),
     );
 
