@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           splitScreenMode: true,
           builder: (context, child) {
             return MaterialApp.router(
-              title: 'GraphQL Users App',
+              title: 'Sample Testing',
               debugShowCheckedModeBanner: false,
               routerConfig: AppRouter.router,
               theme: ThemeData(
